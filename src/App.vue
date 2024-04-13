@@ -6,24 +6,11 @@
 
 <script>
 import MapComponent from './components/Map.vue'
-import "leaflet/dist/leaflet.css";
-import L from 'leaflet';
 
 export default {
   name: 'App',
   components: {
     MapComponent
-  },
-  methods : {
-    initMaps: () => {
-        const map = L.map('map').setView([-1.0, 118.0], 5);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-    }
-  },
-  mounted() {
-    this.initMaps();
   }
 }
 </script>
