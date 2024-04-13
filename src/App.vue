@@ -1,17 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <MapComponent/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MapComponent from './components/Map.vue'
+import "leaflet/dist/leaflet.css";
+import L from 'leaflet';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MapComponent
+  },
+  methods : {
+    initMaps: () => {
+        const map = L.map('map').setView([-1.0, 118.0], 5);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    }
+  },
+  mounted() {
+    this.initMaps();
   }
 }
 </script>
@@ -24,5 +36,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  height: 100vh;
+  width: 100vw;
+  margin:0 !important;
+  padding: 0 !important;
 }
+
 </style>
