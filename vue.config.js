@@ -11,5 +11,5 @@ module.exports = defineConfig({
             ]
         }
     },
-    publicPath: process.env.NODE_ENV === "production" ? "/REPO_NAME/" : "/",
+    publicPath: process.env.NODE_ENV === "production" ? "/simple-weather-map/" : "/",
 })
