@@ -2,7 +2,6 @@
 <div id="map"></div>
 </template>
 
-    
 <script>
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
@@ -88,6 +87,30 @@ export default {
                 }
             })
 
+            map.on('moveend', () => {
+                const zoom = map.getZoom();
+                const bounds = map.getBounds();
+                
+                weatherMarkers.forEach(marker => {
+                    map.removeLayer(marker);
+                })
+                weatherMarkers = [];
+
+                if (zoom >= 13) {
+                    centroids.kecamatanCentroids.features.forEach(async kec => {
+                        const isInBounds = bounds.contains(L.latLng(kec.geometry.coordinates[1], kec.geometry.coordinates[0]))
+
+                        if (isInBounds) {
+                            const marker = await fetchWeather(kec.geometry.coordinates[1], kec.geometry.coordinates[0]);
+
+                            if (marker) {
+                                map.addLayer(marker);
+                                weatherMarkers.push(marker);
+                            }
+                        }
+                    })
+                }
+            })
         },
         fetchData: (lat, long) => {
             return new Promise(resolve => {
@@ -128,7 +151,6 @@ export default {
 
     <!-- Add "scoped" attribute to limit CSS to this component only -->
 
-    
 <style scoped>
 #map {
     width: 100%;
