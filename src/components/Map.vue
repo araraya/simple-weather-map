@@ -44,9 +44,6 @@ export default {
             map.on('zoomend', () => {
                 const zoom = map.getZoom();
                 const bounds = map.getBounds();
-                console.log(bounds);
-
-                console.log(zoom);
                 weatherMarkers.forEach(marker => {
                     map.removeLayer(marker);
                 })
@@ -90,7 +87,7 @@ export default {
             map.on('moveend', () => {
                 const zoom = map.getZoom();
                 const bounds = map.getBounds();
-                
+
                 weatherMarkers.forEach(marker => {
                     map.removeLayer(marker);
                 })
