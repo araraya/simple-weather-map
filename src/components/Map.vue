@@ -88,30 +88,12 @@ export default {
                 const zoom = map.getZoom();
                 const bounds = map.getBounds();
 
-                weatherMarkers.forEach(marker => {
-                    map.removeLayer(marker);
-                })
-                weatherMarkers = [];
-
-                if (zoom < 9) {
-                    centroids.provinsiCentroids.features.forEach(async prov => {
-                        const marker = await fetchWeather(prov.geometry.coordinates[1], prov.geometry.coordinates[0]);
-
-                        if (marker) {
-                            map.addLayer(marker);
-                            weatherMarkers.push(marker);
-                        }
+                if (zoom >= 13) {
+                    weatherMarkers.forEach(marker => {
+                        map.removeLayer(marker);
                     })
-                } else if (zoom >= 9 && zoom < 13) {
-                    centroids.kabkotCentroids.features.forEach(async kabkot => {
-                        const marker = await fetchWeather(kabkot.geometry.coordinates[1], kabkot.geometry.coordinates[0]);
+                    weatherMarkers = [];
 
-                        if (marker) {
-                            map.addLayer(marker);
-                            weatherMarkers.push(marker);
-                        }
-                    })
-                } else {
                     centroids.kecamatanCentroids.features.forEach(async kec => {
                         const isInBounds = bounds.contains(L.latLng(kec.geometry.coordinates[1], kec.geometry.coordinates[0]))
 
@@ -123,7 +105,6 @@ export default {
                                 weatherMarkers.push(marker);
                             }
                         }
-
                     })
                 }
             })
