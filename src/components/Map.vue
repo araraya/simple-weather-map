@@ -93,7 +93,25 @@ export default {
                 })
                 weatherMarkers = [];
 
-                if (zoom >= 13) {
+                if (zoom < 9) {
+                    centroids.provinsiCentroids.features.forEach(async prov => {
+                        const marker = await fetchWeather(prov.geometry.coordinates[1], prov.geometry.coordinates[0]);
+
+                        if (marker) {
+                            map.addLayer(marker);
+                            weatherMarkers.push(marker);
+                        }
+                    })
+                } else if (zoom >= 9 && zoom < 13) {
+                    centroids.kabkotCentroids.features.forEach(async kabkot => {
+                        const marker = await fetchWeather(kabkot.geometry.coordinates[1], kabkot.geometry.coordinates[0]);
+
+                        if (marker) {
+                            map.addLayer(marker);
+                            weatherMarkers.push(marker);
+                        }
+                    })
+                } else {
                     centroids.kecamatanCentroids.features.forEach(async kec => {
                         const isInBounds = bounds.contains(L.latLng(kec.geometry.coordinates[1], kec.geometry.coordinates[0]))
 
@@ -105,6 +123,7 @@ export default {
                                 weatherMarkers.push(marker);
                             }
                         }
+
                     })
                 }
             })
